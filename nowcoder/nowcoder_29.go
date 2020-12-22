@@ -9,7 +9,7 @@ import "fmt"
 
 // 最小的K个数
 // topk问题
-// 1. 冒泡O(kn) 2. 堆排O(k logn) 3. RandomSelect O(n)(快排)
+// 1. 冒泡O(kn) 2. 堆排O(k logn) 3. RandomSelect O(n)(基于快排)
 func GetLeastNumbers(array []int, k int) []int {
 
 	if len(array) == 0 {
@@ -35,20 +35,26 @@ func GetLeastNumbers(array []int, k int) []int {
 
 	// 堆排 有点费事有时间写
 
-	a := RandomSelect(array, 0, len(array)-1, k)
-	fmt.Println(a, " ...")
-
+	// RS
+	RandomSelect(array, 0, len(array)-1, k)
 	return array[:k]
 }
 
 func RandomSelect(array []int, low, high, k int) int {
 
+	// step 1: 终止递归
 	if low == high {
-		return low
+		return array[low]
 	}
 
+	// step 2: 两侧排序
 	mid := partition(array, low, high)
-	if mid-low >= k {
+	index := mid - low + 1
+
+	// step 3: 判断是否继续查找
+	if index == k {
+		return array[index]
+	} else if index > k {
 		return RandomSelect(array, low, mid-1, k)
 	} else {
 		return RandomSelect(array, mid+1, high, k-mid)
@@ -92,5 +98,5 @@ func partition(array []int, low, high int) int {
 //}
 
 func main() {
-	fmt.Println(GetLeastNumbers([]int{4, 5, 1, 6, 2, 7, 3, 1, 8}, 4))
+	fmt.Println(GetLeastNumbers([]int{4, 5, 1, 6, 3, 1, 7, 4, 8, 2}, 4))
 }
