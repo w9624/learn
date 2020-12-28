@@ -98,5 +98,5 @@ func partition(array []int, low, high int) int {
 //}
 
 func main() {
-	fmt.Println(GetLeastNumbers([]int{4, 5, 1, 6, 3, 1, 7, 4, 8, 2}, 4))
+	fmt.Println(GetLeastNumbers([]int{4, 5, 1, 6, 3, 1, 7, 3, 4, 8, 2}, 5))
 }
