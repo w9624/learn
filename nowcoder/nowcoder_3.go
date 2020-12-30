@@ -6,11 +6,12 @@ import (
 )
 
 type ListNode struct {
-	val  int
-	next *ListNode
+	Val  int
+	Next *ListNode
 }
 
 // 从尾到头打印链表
+// 链表 -> 头插法/逆置
 func PrintListFromTailToHead(listNode *ListNode) (array []int) {
 
 	if listNode == nil {
@@ -22,20 +23,20 @@ func PrintListFromTailToHead(listNode *ListNode) (array []int) {
 	for cur := listNode; cur != nil; {
 		// new node
 		node := &ListNode{
-			val: cur.val,
+			Val: cur.Val,
 		}
 
-		// next
-		cur = cur.next
+		// Next
+		cur = cur.Next
 
 		// insert
-		node.next = head.next
-		head.next = node
+		node.Next = head.Next
+		head.Next = node
 	}
 
-	head = head.next
-	for cur := head; cur != nil; cur = cur.next {
-		array = append(array, cur.val)
+	head = head.Next
+	for cur := head; cur != nil; cur = cur.Next {
+		array = append(array, cur.Val)
 	}
 
 	return array
@@ -51,19 +52,19 @@ func main() {
 
 				head := &ListNode{}
 				pre := head
-				cur := head.next
+				cur := head.Next
 				for _, i := range []int{67, 0, 24, 58} {
 					cur = &ListNode{
-						val:  i,
-						next: nil,
+						Val:  i,
+						Next: nil,
 					}
-					pre.next = cur
+					pre.Next = cur
 
-					cur = cur.next
-					pre = pre.next
+					cur = cur.Next
+					pre = pre.Next
 				}
 
-				return head.next
+				return head.Next
 			},
 			expected: []int{58, 24, 0, 67},
 		},

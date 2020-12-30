@@ -3,6 +3,7 @@ package main
 import "log"
 
 // 二维数组中的查找
+// 技巧型问题：利用左-右，上-下递增，因此从右上角到左下角依此递减规律
 func Find(target int, array [][]int) bool {
 
 	if len(array) == 0 || len(array[0]) == 0 {

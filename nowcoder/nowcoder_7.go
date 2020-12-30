@@ -13,9 +13,9 @@ func Fibonacci(n int) (result int) {
 	//a, b := 0, 1
 	//for i := 2; i <= n; i++ {
 	//	result = a + b
-	//	a = b
-	//	b = result
+	//	a, b = b, result
 	//}
+	//return result
 
 	return Fibonacci(n-1) + Fibonacci(n-2)
 }

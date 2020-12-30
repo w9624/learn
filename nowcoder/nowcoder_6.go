@@ -3,11 +3,11 @@ package main
 import "log"
 
 // 旋转数组最小数字
-// 二分查找：情况划分
+// 二分查找 -> 边界划分
 /*
 1. mid > high, low = mid + 1, 右侧
 2. mid = high, high = high - 1, 无法判断最小值在mid左侧还是右侧
-3. mid < high, high = mid， 左侧并因为只有两个值时候下表始终指向小的
+3. mid < high, high = mid，可能为当前值因此high=mid
 */
 func MinNumberInRotateArray(array []int) int {
 	if len(array) == 0 {

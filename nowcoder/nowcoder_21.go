@@ -1,59 +1,31 @@
 package main
 
 import (
-	"fmt"
-	"github.com/golang-collections/collections/stack"
+	"log"
+
+	"github.com/badgerodon/collections/stack"
 )
 
-// 包含min函数的栈
-// 这道题的重点在于，栈中的数是后进先出（即出入顺序相反）
-// md，用链表解了保存了所有值，每次push需要O(n)...当时没想到啊...
-// 还有个问题是go中没有stack，如果要写的还只能先实现stack...
-type StackMinNum struct {
-	S    *stack.Stack
-	SMax *stack.Stack
-}
+// 栈的压入、弹出序列
+// 栈 -> 判处出栈序列合法性
+// 1. 顺序入栈，
+// 2. 栈不为空，比较栈顶元素和出栈数组当前元素，相等则出栈且数组元素后移
+// 3. 判断栈是否为空
+func IsPopOrder(pushV []int, popV []int) bool {
+	s := stack.Stack{}
 
-func (s *StackMinNum) Push(val int) {
-	if s.SMax.Len() == 0 || val >= s.SMax.Peek().(int) {
-		s.SMax.Push(val)
-	}
-	s.S.Push(val)
-}
-
-func (s *StackMinNum) Pop() int {
-	if s.S.Len() == 0 {
-		return 0
+	j := 0
+	for _, val := range pushV {
+		s.Push(val)
+		for s.Len() > 0 && s.Peek() == popV[j] {
+			s.Pop()
+			j++
+		}
 	}
 
-	val := s.S.Pop()
-	if val == s.SMax.Peek() {
-		s.SMax.Pop()
-	}
-	return val.(int)
-}
-
-func (s *StackMinNum) Min() int {
-	if s.SMax.Len() == 0 {
-		return 0
-	}
-
-	return s.SMax.Peek().(int)
+	return s.Len() == 0
 }
 
 func main() {
-	s := StackMinNum{
-		S:    stack.New(),
-		SMax: stack.New(),
-	}
-
-	array := []int{2, 5, 3, 1, 6, 5, 10, 7, 9, 2}
-	for _, val := range array {
-		s.Push(val)
-	}
-
-	for range array {
-		fmt.Println(s.Min())
-		s.Pop()
-	}
+	log.Printf("%v", IsPopOrder([]int{1, 2, 3, 4, 5}, []int{4, 5, 3, 2, 1}))
 }

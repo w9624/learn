@@ -3,6 +3,7 @@ package main
 import "log"
 
 // 跳台阶
+// 斐波拉契数列，不过是以1开头
 func JumpFloor(target int) int {
 
 	if target == 0 {
@@ -13,14 +14,15 @@ func JumpFloor(target int) int {
 		return 2
 	}
 
-	//a, b, c := 1, 2, 0
+	//result := 0
+	//a, b := 1, 2
 	//for i := 3; i <= target; i++ {
-	//	c = a + b
+	//	result = a + b
 	//	a = b
-	//	b = c
+	//	b = result
 	//}
 	//
-	//return c
+	//return result
 
 	return JumpFloor(target-1) + JumpFloor(target-2)
 }
