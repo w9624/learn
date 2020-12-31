@@ -1,8 +1,8 @@
 package main
 
 import (
-	"git.ixiaochuan.cn/xclib/third_party/src/github.com/uber/tchannel-go/crossdock/log"
-	"sort"
+	"fmt"
+	"log"
 )
 
 func Permutation(str string) []string {
@@ -12,48 +12,56 @@ func Permutation(str string) []string {
 
 	chars := []rune(str)
 	//sort.Sort(sortRunes(chars))
-	//sortStr := string(chars)
-	ma := make(map[string]bool, 0)
-	PermutationHelper(0, len(chars)-1, chars, ma)
 
-	var ss []string
-	for s, _ := range ma {
-		ss = append(ss, s)
+	//var reuslt []string
+	for {
+		//result = append(reuslt, "1")
+		fmt.Println(string(chars))
+		from := len(chars) - 1
+		for i := len(chars) - 1; i > 0 && chars[i-1] >= chars[i]; i-- {
+			from--
+			fmt.Println(from)
+		}
+
+		if from == 0 {
+			break
+		}
+
+		change := from
+		for i := from; i < len(chars)-1 && chars[i-1] <= chars[i]; i++ {
+			change++
+		}
+
+		chars[from], chars[change] = chars[change], chars[from]
+
+		reverse(chars, from+1, len(chars)-1)
 	}
-	sort.Strings(ss)
 
-	return ss
+	return nil
 }
 
-func PermutationHelper(m, n int, chars []rune, ma map[string]bool) {
-	if m == n {
-		s := string(chars)
-		if _, ok := ma[s]; !ok {
-			ma[s] = true
-		}
-	} else {
-		swap := func(i, k int) {
-			chars[i], chars[k] = chars[k], chars[i]
-		}
-		for i := m; i < n; i++ {
-			swap(i, m)
-			PermutationHelper(m+1, n, chars, ma)
-			swap(i, m)
-		}
-	}
-}
+type sortRunes []rune
 
-//type sortRunes []rune
-//func (s sortRunes) Less(i, j int) bool {
-//	return s[i] < s[j]
-//}
-//func (s sortRunes) Swap(i, j int) {
-//	s[i], s[j] = s[j], s[i]
-//}
-//func (s sortRunes) Len() int {
-//	return len(s)
-//}
+func (s sortRunes) Less(i, j int) bool {
+	return s[i] < s[j]
+}
+func (s sortRunes) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+func (s sortRunes) Len() int {
+	return len(s)
+}
 
 func main() {
 	log.Printf("%v", Permutation("eacb"))
+
+	//chars := []int{2, 3, 4, 5, 6, 7, 8, 9}
+	//reverse(chars, 2, len(chars)-1)
+	//fmt.Printf("%v", chars)
+}
+
+func reverse(arr []rune, from, to int) {
+	for i := from; i < (from+to)/2; i++ {
+		arr[i], arr[to-(i-from)] = arr[to-(i-from)], arr[i]
+	}
 }
